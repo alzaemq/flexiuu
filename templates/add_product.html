@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        form {
+            background-color: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        button[type="submit"] {
+            width: 100%;
+            padding: 1rem;
+            background-color: #28a745;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button[type="submit"]:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <form action="/add_product" method="post">
+        <h2>Add Product</h2>
+        <input type="text" name="product_name" placeholder="Product Name" required>
+        <input type="number" name="price" step="0.01" placeholder="Price" required>
+        <input type="number" name="quantity" min="0" placeholder="Quantity" required>
+        <input type="text" name="image" placeholder="Image URL" required>
+        <button type="submit">Add Product</button>
+    </form>
+</body>
+</html>

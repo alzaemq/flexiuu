@@ -1,0 +1,45 @@
+   {% extends 'base.html' %}
+{% block title %}Welcome to Flexi Mart{% endblock %}
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <h2 class="text-3xl font-bold text-center mb-8">Welcome to Flexi Mart</h2>
+    <!-- Search Bar -->
+    <div class="search-bar flex justify-center">
+        <form action="/search" method="get" class="flex w-full max-w-lg">
+            <input
+                type="text"
+                name="query"
+                placeholder="Search products..."
+                value="{{ search_query or '' }}"
+                class="border border-gray-300 p-2 rounded-l w-full"
+            />
+            <button
+                type="submit"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-r"
+            >
+                Search
+            </button>
+        </form>
+    </div>
+    <!-- Products List -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        {% for i in products %}
+        <div class="bg-white rounded-lg shadow-lg overflow-hidden">
+            <img class="w-full h-48 object-cover" src="{{ i.image_link }}" alt="{{ i.name }}">
+            <div class="p-4">
+                <h3 class="text-xl font-bold mb-2">{{ i.name }}</h3>
+                <p class="text-gray-700 text-lg mb-4">${{ i.price }}</p>
+                <div class="flex justify-between">
+                    <a href="/view_product/{{ i.id }}">
+                        <button class="buy-now-button text-red">View</button>
+                    </a>
+                    <form action="/add_to_cart/{{ i.id }}" method="POST">
+                        <button type="submit" class="add-to-cart-button">Add to Cart</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

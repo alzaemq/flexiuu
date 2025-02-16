@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{product.name}} - Product Details</title>
+   <style>
+    /* General Reset */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f8f9fa;
+        padding: 20px;
+    }
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        height: auto;
+    }
+    .image-section {
+        position: relative;
+        overflow: hidden;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+    }
+    .image-section img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+    }
+    .details-section {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 20px;
+    }
+    .product-name {
+        font-size: 28px;
+        font-weight: bold;
+        color: #222;
+        margin-bottom: 10px;
+    }
+    .product-price {
+        font-size: 22px;
+        color: #28a745;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+    .product-rating {
+        font-size: 18px;
+        color: #ffcc00;
+        margin-bottom: 10px;
+    }
+    .quantity-selection {
+        margin-bottom: 20px;
+        font-size: 18px;
+        color: #555;
+    }
+    .quantity-selection select {
+        margin-left: 10px;
+        padding: 5px;
+        font-size: 16px;
+    }
+    .button-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .buy-now-button,
+    .add-to-cart-button {
+        padding: 12px 20px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #fff;
+        text-align: center;
+        border: none;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+        width: 100%;
+        cursor: pointer;
+    }
+    .buy-now-button {
+        background-color: #007bff;
+    }
+    .buy-now-button:hover {
+        background-color: #0056b3;
+    }
+    .add-to-cart-button {
+        background-color: #dc3545;
+    }
+    .add-to-cart-button:hover {
+        background-color: #a71d2a;
+    }
+</style>
+</head>
+<body>
+    <div class="container">
+        <!-- Product Image Section -->
+        <div class="image-section">
+            <img src="{{ product.image_link }}" alt="{{ product.name }}">
+        </div>
+        <!-- Product Details Section -->
+        <div class="details-section">
+            <div class="product-name">{{ product.name }}</div>
+            <div class="product-price">${{ product.price }}</div>
+            <div class="product-rating">⭐⭐⭐⭐⭐ (200)</div>
+            <div class="quantity-selection">
+                Quantity:
+                <select id="quantity-select">
+                    {% for i in range(1, product.quantity + 1) %}
+                        <option value="{{ i }}">{{ i }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="button-container">
+                <form action="{{ url_for('buy_now', product_id=product.id) }}" method="POST">
+                    <button type="submit" class="buy-now-button">Buy Now</button>
+                </form>
+                <form action="/add_to_cart/{{ product.id }}" method="POST">
+                    <button type="submit" class="add-to-cart-button">Add to Cart</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

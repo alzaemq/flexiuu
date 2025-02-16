@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Online Store{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <style>
+        /* Ensure the footer is always at the bottom */
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+        .page-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .content {
+            flex: 1;
+        }
+        .footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+        }
+        /* Button Styles */
+        .buy-now-button,
+        .add-to-cart-button,
+        .continue-shopping-button,
+        .clear-cart-button,
+        .checkout-button {
+            padding: 8px 20px; /* Slightly shorter buttons */
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            text-decoration: none;
+            text-align: center;
+            border: none;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            width: 100%; /* Full width */
+        }
+        .buy-now-button {
+            background-color: #f0c14b;
+            border: 2px solid #a88734;
+        }
+        .buy-now-button:hover {
+            background-color: #d0b02e;
+        }
+        .add-to-cart-button {
+            background-color: #ffe900;
+            border: 2px solid #a88734;
+        }
+        .add-to-cart-button:hover {
+            background-color: #d0b02e;
+        }
+        .continue-shopping-button {
+            background-color: #3b82f6;
+            border: 2px solid #2563eb;
+        }
+        .continue-shopping-button:hover {
+            background-color: #2563eb;
+        }
+        .clear-cart-button {
+            background-color: #ef4444;
+            border: 2px solid #dc2626;
+        }
+        .clear-cart-button:hover {
+            background-color: #dc2626;
+        }
+        .checkout-button {
+            background-color: #22c55e;
+            border: 2px solid #16a34a;
+        }
+        .checkout-button:hover {
+            background-color: #16a34a;
+        }
+        /* Search Bar Styles */
+        .search-bar {
+            margin-bottom: 20px;
+        }
+        .search-bar input {
+            margin-right: 5px;
+        }
+        /* Product Card Styles */
+        .product-card {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .product-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        .product-details {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .product-name {
+            font-size: 24px;
+            font-weight: bold;
+            color: #111;
+        }
+        .product-price {
+            font-size: 20px;
+            color: #ff4c4c;
+            font-weight: bold;
+        }
+        .product-rating {
+            font-size: 16px;
+            color: #555;
+        }
+        .quantity-selection {
+            font-size: 16px;
+            color: #555;
+        }
+        .quantity-selection select {
+            margin-left: 10px;
+            padding: 5px;
+            font-size: 16px;
+        }
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="page-container">
+        <header class="{% if current_user.is_authenticated %}bg-blue-500{% else %}bg-red-500{% endif %} text-white p-4">
+            <div class="container mx-auto flex justify-between items-center">
+                <h1 class="text-2xl font-bold">Flexi Mart</h1>
+                <nav>
+                    <ul class="flex space-x-4">
+                        <li><a href="/" class="text-white hover:text-gray-200">Home</a></li>
+                        <li><a href="{{ url_for('view_cart') }}" class="text-white hover:text-gray-200">Cart</a></li>
+                        {% if current_user.is_authenticated %}
+                            {% if current_user.role == 'seller' %}
+                                <li><a href="{{ url_for('add') }}" class="text-white hover:text-gray-200">Add Product</a></li>
+                            {% endif %}
+                            <li><a href="/logout" class="text-white hover:text-gray-200">Logout</a></li>
+                        {% else %}
+                            <li><a href="{{ url_for('login') }}" class="text-white hover:text-gray-200">Login</a></li>
+                            <li><a href="{{ url_for('register') }}" class="text-white hover:text-gray-200">Register</a></li>
+
+                        {% endif %}
+
+                    </ul>
+                </nav>
+            </div>
+        </header>
+        <main class="content container mx-auto px-4 py-8">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                {% for category, message in messages %}
+                  <div class="alert alert-{{ category }} p-4 mb-4 rounded bg-red-100 text-red-700 border border-red-400">
+                      {{ message }}
+                  </div>
+                {% endfor %}
+              {% endif %}
+            {% endwith %}
+            {% block content %}
+            <!-- Content will go here -->
+            {% endblock %}
+        </main>
+        <footer class="footer">
+            <p>&copy; 2024 Flexi Mart</p>
+        </footer>
+    </div>
+</body>
+</html>
